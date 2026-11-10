@@ -1,0 +1,70 @@
+<h2 mat-dialog-title>Novo usuário</h2>
+
+<form [formGroup]="userForm">
+  <mat-dialog-content>
+    
+    <div class="line">
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput type="text" formControlName="name">
+        @for (item of errorMessages['name']; track $index) {
+          <mat-error [hidden]="!userForm.get('name')?.hasError(item.type)">
+            {{ item.message }}
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
+    
+    <div class="line cols-1-1">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+        @for (item of errorMessages['email']; track $index) {
+          <mat-error [hidden]="!userForm.get('email')?.hasError(item.type)">
+            {{ item.message }}
+          </mat-error>
+        }
+      </mat-form-field>
+      
+      <!-- Container do Botão de Lotação / Tipo de Profissional -->
+      <div class="types-button-container">
+        <button 
+          mat-flat-button 
+          type="button" 
+          class="select-types-btn"
+          [disabled]="isSubmitting()"
+          (click)="openProfessionalTypesDialog()">
+          <mat-icon>workspaces</mat-icon>
+          <span>LOTAÇÃO DO PROFISSIONAL</span>
+        </button>
+
+        <!-- Exibição de Erro -->
+        @if (userForm.get('types')?.touched && userForm.get('types')?.invalid) {
+          @for (item of errorMessages['types']; track $index) {
+            @if (userForm.get('types')?.hasError(item.type)) {
+              <span class="custom-error-message">{{ item.message }}</span>
+            }
+          }
+        }
+      </div>
+    </div>
+    
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="false" [disabled]="isSubmitting()">Fechar</button>
+    <button 
+      mat-flat-button 
+      color="primary" 
+      type="button" 
+      [disabled]="userForm.invalid || userForm.pending || isSubmitting()"
+      (click)="onSubmit()">
+      <div class="waiting">
+        @if (isSubmitting()) {
+          <mat-spinner [diameter]="20"></mat-spinner>
+        }
+        Criar usuário
+      </div>
+    </button>
+  </mat-dialog-actions>
+</form>

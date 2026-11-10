@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>
+  {{ isValid ? 'Invalidar usuário' : 'Validar usuário' }}
+</h2>
+
+<mat-dialog-content>
+  <p>
+    @if (isValid) {
+      Você deseja realmente invalidar o usuário <strong>{{ userName }}</strong>?
+    } @else {
+      Você deseja realmente validar o usuário <strong>{{ userName }}</strong>?
+    }
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button 
+    mat-button 
+    type="button" 
+    [mat-dialog-close]="false" 
+    [disabled]="isSubmitting()">
+    Fechar
+  </button>
+  
+  <button 
+    mat-flat-button 
+    color="primary" 
+    type="button" 
+    [disabled]="isSubmitting()" 
+    (click)="onSubmit()">
+    <div class="waiting">
+      @if (isSubmitting()) {
+        <mat-spinner [diameter]="20"></mat-spinner>
+      }
+      <span>{{ isValid ? 'Invalidar' : 'Validar' }}</span>
+    </div>
+  </button>
+</mat-dialog-actions>

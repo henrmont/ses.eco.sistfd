@@ -1,0 +1,50 @@
+@use 'variables' as *;
+
+:host {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+mat-drawer-container {
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  overflow: hidden;
+}
+
+mat-drawer {
+  background-color: var(--md-sys-color-surface-variant);
+  position: fixed;
+  margin-top: 80px;
+  height: calc(100vh - 80px);
+  width: 300px;
+  overflow: hidden;
+}
+
+mat-action-list {
+  width: 100%;
+
+  button {
+    // Efeito de transição suave ao passar o mouse ou ativar o link
+    div.link {
+      display: flex;
+      align-items: center;
+
+      mat-icon {
+        margin-right: 10px;
+      }
+    }
+
+    // Estilização do link ativo via routerLinkActive
+    &.active {
+      background-color: var(--md-sys-color-primary);
+      font-weight: 500; // Um leve destaque no peso da fonte do link ativo
+      
+      div, div mat-icon {
+        color: var(--md-sys-color-tertiary-container);
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>
+  {{ isEditable ? 'Travar usuário' : 'Destravar usuário' }}
+</h2>
+
+<mat-dialog-content>
+  <p>
+    @if (isEditable) {
+      Você deseja travar a edição do usuário <strong>{{ userName }}</strong>?
+    } @else {
+      Você deseja destravar a edição do usuário <strong>{{ userName }}</strong>?
+    }
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button 
+    mat-button 
+    type="button" 
+    [mat-dialog-close]="false" 
+    [disabled]="isSubmitting()">
+    Fechar
+  </button>
+  
+  <button 
+    mat-flat-button 
+    type="button" 
+    color="primary" 
+    [disabled]="isSubmitting()" 
+    (click)="onSubmit()">
+    <div class="waiting">
+      @if (isSubmitting()) {
+        <mat-spinner [diameter]="20"></mat-spinner>
+      }
+      <span>{{ isEditable ? 'Travar' : 'Destravar' }}</span>
+    </div>
+  </button>
+</mat-dialog-actions>

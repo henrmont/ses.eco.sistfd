@@ -1,0 +1,53 @@
+<mat-drawer-container>
+  <mat-drawer mode="side" opened>
+    <mat-action-list>
+      
+      @for (group of menuGroups; track group.subHeader) {
+        @if (hasAccess(group.requiredTypes, group.requiredPermissions)) {
+          
+          <div mat-subheader>{{ group.subHeader }}</div>
+          
+          @for (item of group.items; track item.label) {
+            @if (checkProfessionalType(item.types)) {
+              
+              <!-- Item de Navegação (RouterLink) -->
+              @if (item.routerLink) {
+                <button 
+                  mat-list-item 
+                  [routerLink]="checkPermission(item.permissions) ? item.routerLink : null" 
+                  [disabled]="!checkPermission(item.permissions)"
+                  routerLinkActive="active"
+                  [attr.aria-disabled]="!checkPermission(item.permissions)">
+                  <div class="link">
+                    <mat-icon>{{ item.icon }}</mat-icon>
+                    <div>{{ item.label }}</div>
+                  </div>
+                </button>
+              }
+              
+              <!-- Item de Ação (Dialog/Modal) -->
+              @if (item.action) {
+                <button
+                  mat-list-item 
+                  (click)="checkPermission(item.permissions) && item.action()" 
+                  [disabled]="!checkPermission(item.permissions)">
+                  <div class="link">
+                    <mat-icon>{{ item.icon }}</mat-icon>
+                    <div>{{ item.label }}</div>
+                  </div>
+                </button>
+              }
+
+            }
+          }
+
+        }
+      }
+
+    </mat-action-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
